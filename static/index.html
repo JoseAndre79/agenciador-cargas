@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Agenciador de Cargas Inteligente</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- FontAwesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS Estilos -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar lateral de navegação -->
+        <aside class="main-sidebar" id="sidebar">
+            <div class="sidebar-logo">
+                <div class="logo-icon"><i class="fa-solid fa-truck-fast"></i></div>
+                <div class="logo-text">Agenciador<span>Carga</span></div>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <a href="#" class="menu-item active" id="btn-menu-dashboard">
+                    <i class="fa-solid fa-chart-line"></i> Painel de Controle
+                </a>
+                <a href="#" class="menu-item" id="btn-menu-parser">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Triagem Rápida (Cole texto)
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="status-indicator">
+                    <span class="pulse-dot green"></span>
+                    <span class="status-lbl">Robô de Triagem Ativo</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Área Principal de Conteúdo -->
+        <main class="main-content">
+            <!-- Topbar / Cabeçalho de Usuário -->
+            <header class="topbar">
+                <div class="header-title">
+                    <h1 id="page-title">Painel de Controle</h1>
+                    <p class="subtitle">Monitoramento e match de cargas inteligentes em tempo real</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-primary" id="btn-scrape-trigger">
+                        <i class="fa-solid fa-magnifying-glass animate-spin-hover"></i> 
+                        Varredura de Cargas (Simular)
+                    </button>
+                </div>
+            </header>
+
+            <!-- Cards de Métricas e KPIs -->
+            <section class="kpi-grid">
+                <div class="kpi-card" id="kpi-cargas-ativas">
+                    <div class="kpi-icon blue"><i class="fa-solid fa-box-open"></i></div>
+                    <div class="kpi-data">
+                        <span class="kpi-label">No Radar (Disponíveis)</span>
+                        <h3 class="kpi-value" id="val-kpi-disponivel">0</h3>
+                    </div>
+                </div>
+                
+                <div class="kpi-card" id="kpi-cargas-negociando">
+                    <div class="kpi-icon orange"><i class="fa-solid fa-handshake"></i></div>
+                    <div class="kpi-data">
+                        <span class="kpi-label">Em Negociação</span>
+                        <h3 class="kpi-value" id="val-kpi-negociando">0</h3>
+                    </div>
+                </div>
+                
+                <div class="kpi-card" id="kpi-cargas-fechadas">
+                    <div class="kpi-icon green"><i class="fa-solid fa-circle-check"></i></div>
+                    <div class="kpi-data">
+                        <span class="kpi-label">Cargas Fechadas</span>
+                        <h3 class="kpi-value" id="val-kpi-fechado">0</h3>
+                    </div>
+                </div>
+                
+                <div class="kpi-card" id="kpi-comissao">
+                    <div class="kpi-icon purple"><i class="fa-solid fa-sack-dollar"></i></div>
+                    <div class="kpi-data">
+                        <span class="kpi-label">Comissão Estimada (R$)</span>
+                        <h3 class="kpi-value" id="val-kpi-comissao">R$ 0,00</h3>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Dashboard Grid Layout -->
+            <div class="dashboard-body" id="dashboard-view">
+                <!-- Seção Esquerda: Filtros e Lista de Cargas -->
+                <section class="cargas-section">
+                    <!-- Barra de Filtros -->
+                    <div class="filter-panel glass">
+                        <div class="filter-row">
+                            <div class="filter-group">
+                                <label for="filter-origem-uf"><i class="fa-solid fa-location-dot"></i> Origem (UF)</label>
+                                <select id="filter-origem-uf">
+                                    <option value="">Todos</option>
+                                    <option value="SC">SC - Santa Catarina</option>
+                                    <option value="PR">PR - Paraná</option>
+                                    <option value="RS">RS - Rio Grande do Sul</option>
+                                    <option value="SP">SP - São Paulo</option>
+                                    <option value="MG">MG - Minas Gerais</option>
+                                    <option value="RJ">RJ - Rio de Janeiro</option>
+                                </select>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label for="filter-destino-uf"><i class="fa-solid fa-map-pin"></i> Destino (UF)</label>
+                                <select id="filter-destino-uf">
+                                    <option value="">Todos</option>
+                                    <option value="SC">SC - Santa Catarina</option>
+                                    <option value="PR">PR - Paraná</option>
+                                    <option value="RS">RS - Rio Grande do Sul</option>
+                                    <option value="SP">SP - São Paulo</option>
+                                    <option value="MG">MG - Minas Gerais</option>
+                                    <option value="RJ">RJ - Rio de Janeiro</option>
+                                </select>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label for="filter-veiculo"><i class="fa-solid fa-truck"></i> Veículo</label>
+                                <select id="filter-veiculo">
+                                    <option value="">Todos</option>
+                                    <option value="Carreta">Carreta</option>
+                                    <option value="Truck">Truck</option>
+                                    <option value="Toco">Toco</option>
+                                    <option value="VLC">VLC</option>
+                                </select>
+                            </div>
+
+                            <div class="filter-group">
+                                <label for="filter-status"><i class="fa-solid fa-tag"></i> Status</label>
+                                <select id="filter-status">
+                                    <option value="">Todos</option>
+                                    <option value="Disponível" selected>Disponível</option>
+                                    <option value="Em Negociação">Em Negociação</option>
+                                    <option value="Fechado">Fechado</option>
+                                    <option value="Expirado">Expirado</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Lista de Cargas Encontradas -->
+                    <div class="cargas-list-container">
+                        <div class="list-header">
+                            <h2>Cargas Captadas no Radar</h2>
+                            <span class="refresh-indicator" id="refresh-indicator"><i class="fa-solid fa-arrows-rotate"></i> Atualizado</span>
+                        </div>
+                        <div class="cargas-list" id="cargas-list">
+                            <!-- Cards de Carga serão gerados via JS -->
+                            <div class="empty-list-placeholder">
+                                <i class="fa-solid fa-circle-notch fa-spin"></i>
+                                <p>Carregando banco de dados de cargas...</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Seção Direita: Detalhes e Matchmaking -->
+                <aside class="details-section glass" id="details-panel">
+                    <div class="empty-detail-placeholder" id="empty-details">
+                        <i class="fa-solid fa-truck-ramp-box"></i>
+                        <h3>Detalhes da Carga</h3>
+                        <p>Selecione um card de carga na lista para visualizar informações de contato, realizar triagem B2B e efetuar match com motoristas da base.</p>
+                    </div>
+                    
+                    <div class="details-content hidden" id="details-content">
+                        <div class="details-header">
+                            <span class="status-badge" id="detail-status">Status</span>
+                            <h3 id="detail-route">JOINVILLE/SC ➔ SÃO PAULO/SP</h3>
+                            <p class="captured-time"><i class="fa-regular fa-clock"></i> Capturado em: <span id="detail-time">28/05/2026 13:20</span></p>
+                        </div>
+                        
+                        <div class="details-grid">
+                            <div class="detail-item">
+                                <span class="lbl">Produto</span>
+                                <span class="val" id="detail-produto"><i class="fa-solid fa-box"></i> Bobinas</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="lbl">Peso Exigido</span>
+                                <span class="val" id="detail-peso"><i class="fa-solid fa-weight-hanging"></i> 24.5 t</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="lbl">Tipo de Veículo</span>
+                                <span class="val" id="detail-veiculo"><i class="fa-solid fa-truck"></i> Carreta</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="lbl">Carroceria</span>
+                                <span class="val" id="detail-carroceria"><i class="fa-solid fa-truck-flatbed"></i> Sider</span>
+                            </div>
+                            <div class="detail-item full-width">
+                                <span class="lbl">Valor Ofertado</span>
+                                <span class="val price" id="detail-valor"><i class="fa-solid fa-dollar-sign"></i> R$ 3.800,00</span>
+                            </div>
+                            <div class="detail-item full-width">
+                                <span class="lbl">Contato do Embarcador</span>
+                                <span class="val contato" id="detail-contato"><i class="fa-solid fa-phone"></i> (47) 99999-9999</span>
+                            </div>
+                        </div>
+
+                        <!-- Ações Rápidas de Agenciamento -->
+                        <div class="action-card glass">
+                            <h4>Ações de Agenciamento</h4>
+                            <div class="action-buttons">
+                                <button class="btn btn-secondary" id="btn-action-negotiate">
+                                    <i class="fa-solid fa-handshake"></i> Iniciar Negociação
+                                </button>
+                                <button class="btn btn-danger" id="btn-action-expire">
+                                    <i class="fa-solid fa-ban"></i> Expirar Carga
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Seção Match Inteligente de Motoristas -->
+                        <div class="matchmaking-container">
+                            <div class="match-header">
+                                <h4><i class="fa-solid fa-people-arrows"></i> Motoristas Compatíveis na Base</h4>
+                                <span class="match-count-badge" id="match-count">0</span>
+                            </div>
+                            
+                            <div class="drivers-match-list" id="drivers-match-list">
+                                <!-- Motoristas Compatíveis listados via JS -->
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+
+            <!-- Dashboard Parser View (Hidden by default) -->
+            <div class="dashboard-body hidden" id="parser-view">
+                <section class="parser-sandbox glass">
+                    <div class="parser-header">
+                        <h2><i class="fa-solid fa-wand-magic-sparkles"></i> Caixa de Areia de Triagem Regex</h2>
+                        <p>Copie e cole uma mensagem desestruturada de frete vinda de qualquer grupo de WhatsApp ou painel e veja o motor de parsing do Agenciador estruturar as informações em tempo real no banco de dados.</p>
+                    </div>
+                    
+                    <div class="parser-form">
+                        <div class="form-group">
+                            <label for="raw-text-input">Cole o texto bruto da carga:</label>
+                            <textarea id="raw-text-input" placeholder="Exemplo: CARRETA SIDER JVE X SP PAGA 3800 URGENTE TRATAR COM JOÃO 47999999999 BOBINA 24T"></textarea>
+                        </div>
+                        <button class="btn btn-primary" id="btn-parse-submit">
+                            <i class="fa-solid fa-gears"></i> Processar e Cadastrar Carga
+                        </button>
+                    </div>
+
+                    <div class="parser-result-container hidden" id="parser-result-card">
+                        <h3><i class="fa-solid fa-clipboard-check"></i> Carga Identificada com Sucesso!</h3>
+                        <div class="parsed-data-grid" id="parsed-output-grid">
+                            <!-- Preenchido via JS -->
+                        </div>
+                        <div class="parser-alert success" id="parser-db-alert">
+                            <i class="fa-solid fa-circle-check"></i> Carga salva no banco de dados com ID único!
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Terminal de logs do robô -->
+                <aside class="terminal-logs-section glass">
+                    <div class="terminal-header">
+                        <span><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></span>
+                        <h4>Console da Automação de Captação</h4>
+                    </div>
+                    <div class="terminal-body" id="terminal-log-body">
+                        <div class="log-line text-muted">[2026-05-28 13:34:00] Sistema inicializado. Aguardando comando de varredura...</div>
+                    </div>
+                </aside>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal de Sucesso do Match e Disparo de Mensagem -->
+    <div class="modal-overlay hidden" id="match-modal">
+        <div class="modal-card glass">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-circle-check green-text"></i> Match Realizado e Confirmado!</h3>
+                <button class="close-btn" id="btn-close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>O frete foi vinculado com sucesso. Abaixo está a mensagem de agenciamento gerada e formatada para ser disparada para o motorista no WhatsApp:</p>
+                
+                <div class="message-preview-container">
+                    <div class="message-preview-header">
+                        <span>Mensagem de Disparo</span>
+                        <button class="btn btn-sm btn-outline" id="btn-copy-msg"><i class="fa-regular fa-copy"></i> Copiar Texto</button>
+                    </div>
+                    <textarea class="message-text" id="match-message-text" readonly></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="btn-modal-cancel">Fechar</button>
+                <button class="btn btn-success" id="btn-modal-send-whatsapp">
+                    <i class="fa-brands fa-whatsapp"></i> Enviar pelo WhatsApp Web
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
